@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Test Multi-File Upload</title>
+    <style>
+      body { font-family: system-ui, Arial, sans-serif; max-width: 720px; margin: 40px auto; padding: 0 16px; }
+      .row { margin: 12px 0; }
+      pre { background: #f6f8fa; padding: 12px; border-radius: 8px; overflow: auto; }
+      button { padding: 10px 14px; }
+    </style>
+  </head>
+  <body>
+    <h1>Upload files to FastAPI</h1>
+
+    <div class="row">
+      <label>API URL:</label><br />
+      <input id="url" type="text" style="width: 100%; padding: 8px;"
+             value="http://127.0.0.1:8000/upload-files/" />
+    </div>
+
+    <div class="row">
+      <label>Select files:</label><br />
+      <input id="files" type="file" multiple />
+    </div>
+
+    <div class="row">
+      <button id="btn">Upload</button>
+    </div>
+
+    <h3>Response</h3>
+    <pre id="out">(nothing yet)</pre>
+
+    <script>
+      const btn = document.getElementById("btn");
+      const out = document.getElementById("out");
+
+      btn.addEventListener("click", async () => {
+        const url = document.getElementById("url").value.trim();
+        const input = document.getElementById("files");
+
+        if (!input.files || input.files.length === 0) {
+          out.textContent = "Please choose at least one file.";
+          return;
+        }
+
+        const formData = new FormData();
+        for (const file of input.files) {
+          // IMPORTANT: field name must match FastAPI parameter name: files
+          formData.append("files", file, file.name);
+        }
+
+        out.textContent = "Uploading...";
+
+        try {
+          const res = await fetch(url, {
+            method: "POST",
+            body: formData,
+          });
+
+          const text = await res.text();
+          out.textContent = `HTTP ${res.status}\n\n${text}`;
+        } catch (err) {
+          out.textContent = "Upload failed: " + err;
+        }
+      });
+    </script>
+  </body>
+</html>
