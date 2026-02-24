@@ -1,3 +1,7 @@
+
+## Try it out
+- http://load-balancer-frontline-academy-107751714.us-west-1.elb.amazonaws.com/
+
 ## Inspiration
 
 Frontline workers in education and healthcare are expected to learn constantly—new protocols, policies, compliance updates, and best practices—but they rarely have the time (or energy) to sit through long trainings or dig through dense PDFs during a shift. In practice, learning happens in stolen moments: between classes, on breaks, during handoffs, or right before a task.
