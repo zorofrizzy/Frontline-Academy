@@ -1,12 +1,15 @@
 import json
 import requests
 import streamlit as st
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
-BACKEND_URL_DEFAULT = "http://127.0.0.1:8000"
+BACKEND_URL_DEFAULT = os.getenv("BACKEND_URL_DEFAULT", "http://127.0.0.1:8000")
 
-st.set_page_config(page_title="Frontline Quiz", page_icon="🧠", layout="centered")
+st.set_page_config(page_title="Frontline Academy", page_icon="🧠", layout="centered")
 
-st.title("Frontline Quiz 🧠")
+st.title("Frontline Academy 🧠")
 st.caption("Upload a document OR type a topic prompt to generate an MCQ quiz via Gemini.")
 
 # ---- Session state ----
@@ -20,7 +23,9 @@ if "score" not in st.session_state:
 
 with st.sidebar:
     st.header("Settings")
-    backend_url = st.text_input("Backend URL", value=BACKEND_URL_DEFAULT)
+    st.text(BACKEND_URL_DEFAULT[7:25])
+    backend_url = BACKEND_URL_DEFAULT
+    #backend_url = st.text_input("Backend URL", value=BACKEND_URL_DEFAULT[:10])
     st.write("Health check:")
     try:
         r = requests.get(f"{backend_url}/health", timeout=3)
